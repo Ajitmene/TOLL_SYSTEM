@@ -1,0 +1,9 @@
+# Smart Toll Booth Collection & Traffic Management System
+#
+# The core CLI application (main.py) has zero third-party
+# dependencies -- it uses only the Python standard library.
+#
+# The optional web console (webapp/app.py) needs Flask.
+
+flask>=3.0          # required only to run webapp/app.py
+pytest>=7.0          # optional: richer test runner (unittest works too)

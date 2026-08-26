@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Violations{% endblock %}
+{% block page_title %}Violations{% endblock %}
+{% block page_subtitle %}{{ violations|length }} record(s) on file{% endblock %}
+
+{% block content %}
+
+<div class="card">
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Violation ID</th><th>Vehicle</th><th>Booth</th><th>Type</th>
+          <th>Fine</th><th>Status</th><th>Recorded</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in violations %}
+        <tr>
+          <td class="mono">{{ v.violation_id }}</td>
+          <td><a href="{{ url_for('vehicle_detail', vehicle_number=v.vehicle_number) }}">{{ v.vehicle_number }}</a></td>
+          <td>{{ v.booth_id }}</td>
+          <td><span class="badge amber">{{ v.violation_type|replace('_',' ')|title }}</span></td>
+          <td>&#8377;{{ "%.2f"|format(v.fine_amount) }}</td>
+          <td>
+            {% if v.status == 'UNPAID' %}<span class="badge red">Unpaid</span>
+            {% elif v.status == 'PAID' %}<span class="badge green">Paid</span>
+            {% else %}<span class="badge gray">Waived</span>{% endif %}
+          </td>
+          <td class="muted">{{ v.recorded_at[:19]|replace('T',' ') }}</td>
+          <td>
+            {% if v.status == 'UNPAID' %}
+            <div class="btn-row">
+              <form method="POST" action="{{ url_for('violation_pay', violation_id=v.violation_id) }}">
+                <button class="btn btn-sm btn-success" type="submit">Mark Paid</button>
+              </form>
+              {% if current_user.role == 'Admin' %}
+              <form method="POST" action="{{ url_for('violation_waive', violation_id=v.violation_id) }}">
+                <button class="btn btn-sm btn-ghost" type="submit">Waive</button>
+              </form>
+              {% endif %}
+            </div>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr class="empty-row"><td colspan="8">No violations recorded. Clean record!</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

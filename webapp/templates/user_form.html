@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Register User{% endblock %}
+{% block page_title %}Register System User{% endblock %}
+{% block page_subtitle %}Create a staff login{% endblock %}
+
+{% block content %}
+<div class="breadcrumb"><a href="{{ url_for('users') }}">Staff &amp; Users</a> / Register</div>
+
+<div class="card card-pad" style="max-width: 620px;">
+  <form method="POST" id="user-form">
+    <div class="form-grid">
+      <div class="field">
+        <label>Username <span class="req">*</span></label>
+        <input type="text" name="username" required>
+      </div>
+      <div class="field">
+        <label>Password <span class="req">*</span></label>
+        <input type="password" name="password" required>
+      </div>
+      <div class="field full">
+        <label>Full Name <span class="req">*</span></label>
+        <input type="text" name="full_name" required>
+      </div>
+      <div class="field">
+        <label>Role <span class="req">*</span></label>
+        <select name="role" id="role" required>
+          <option value="Toll Operator" selected>Toll Operator</option>
+          <option value="Manager">Manager</option>
+          <option value="Admin">Admin</option>
+        </select>
+      </div>
+      <div class="field" id="booth-field">
+        <label>Assigned Booth</label>
+        <select name="booth_id">
+          <option value="">— none —</option>
+          {% for b in booths %}
+          <option value="{{ b.booth_id }}">{{ b.booth_id }} — {{ b.booth_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Register User</button>
+      <a href="{{ url_for('users') }}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  const roleSelect = document.getElementById('role');
+  const boothField = document.getElementById('booth-field');
+
+  function syncFields() {
+    boothField.style.display = roleSelect.value === 'Toll Operator' ? 'flex' : 'none';
+  }
+
+  roleSelect.addEventListener('change', syncFields);
+  syncFields();
+</script>
+{% endblock %}

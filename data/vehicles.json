@@ -1,0 +1,30 @@
+[
+    {
+        "vehicle_number": "MH12AB1234",
+        "vehicle_type": "Car",
+        "owner_name": "Ajit",
+        "vehicle_model": "Swift",
+        "fuel_type": "Petrol",
+        "registration_state": "Maharashtra",
+        "fastag_id": "FT10001"
+    },
+    {
+        "vehicle_number": "MH12AB1234",
+        "vehicle_type": "Car",
+        "owner_name": "Ajit",
+        "vehicle_model": "Swift",
+        "fuel_type": "Petrol",
+        "registration_state": "Maharashtra",
+        "fastag_id": "FT10001"
+    },
+    {
+        "vehicle_number": "MH14CD5678",
+        "vehicle_type": "SUV",
+        "owner_name": "Ajit",
+        "owner_phone": "9876543210",
+        "vehicle_model": "Creta",
+        "fuel_type": "Diesel",
+        "registration_state": "Maharashtra",
+        "fastag_id": "FT10002"
+    }
+]

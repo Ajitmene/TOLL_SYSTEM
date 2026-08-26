@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Flask
+webapp/*.log
+instance/
+.flaskenv
+
+# Runtime-generated data & logs -- keep the repo's seed data out of
+# version control noise after the app has been run locally.
+logs/*.log
+reports/exports/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store

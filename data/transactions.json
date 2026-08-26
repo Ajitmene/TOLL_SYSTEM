@@ -1,0 +1,30 @@
+[
+    {
+        "transaction_id": "TXN20260819233431467716",
+        "vehicle_number": "MH12AB1234",
+        "vehicle_type": "Car",
+        "booth_id": "B001",
+        "operator_id": "OP001",
+        "base_toll": 50,
+        "peak_charge": 10,
+        "discount": 6.0,
+        "final_amount": 54.0,
+        "payment_method": "FASTag",
+        "status": "SUCCESS",
+        "transaction_datetime": "2026-08-19T23:34:31.468364"
+    },
+    {
+        "transaction_id": "TXN20260819234416705354",
+        "vehicle_number": "MH12AB1234",
+        "vehicle_type": "Car",
+        "booth_id": "B001",
+        "operator_id": "OP001",
+        "base_toll": 50,
+        "peak_charge": 10,
+        "discount": 6.0,
+        "final_amount": 54.0,
+        "payment_method": "FASTag",
+        "status": "SUCCESS",
+        "transaction_datetime": "2026-08-19T23:44:16.705607"
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "user_id": "USR20260826094202959649",
+        "username": "admin",
+        "password": "7f69d31f45a2b26a5636b23c8fcb714c$6fd132bedd11a1b1e3003f346883e6b5f51b20d62ed03450cf74038fb55966bc",
+        "full_name": "System Administrator",
+        "role": "Admin",
+        "is_active": true,
+        "booth_id": null
+    }
+]

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Toll Passes{% endblock %}
+{% block page_title %}Toll Passes{% endblock %}
+{% block page_subtitle %}{{ passes|length }} pass(es) issued{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+  <div></div>
+  <a href="{{ url_for('pass_issue') }}" class="btn btn-primary">+ Issue Pass</a>
+</div>
+
+<div class="card">
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Pass ID</th><th>Vehicle</th><th>Type</th><th>Trips Left</th>
+          <th>Expiry</th><th>Status</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in passes %}
+        <tr>
+          <td class="mono">{{ p.pass_id }}</td>
+          <td><a href="{{ url_for('vehicle_detail', vehicle_number=p.vehicle_number) }}">{{ p.vehicle_number }}</a></td>
+          <td><span class="badge blue">{{ p.pass_type }}</span></td>
+          <td>{{ p.trips_remaining if p.pass_type == 'TRIP' else '&mdash;'|safe }}</td>
+          <td class="muted">{{ p.expiry_date[:10] }}</td>
+          <td>
+            {% if p.status == 'ACTIVE' %}<span class="badge green">Active</span>
+            {% elif p.status == 'CANCELLED' %}<span class="badge red">Cancelled</span>
+            {% else %}<span class="badge gray">{{ p.status }}</span>{% endif %}
+          </td>
+          <td>
+            {% if current_user.role == 'Admin' and p.status == 'ACTIVE' %}
+            <form method="POST" action="{{ url_for('pass_cancel', pass_id=p.pass_id) }}">
+              <button class="btn btn-sm btn-danger" type="submit">Cancel</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr class="empty-row"><td colspan="7">No passes issued yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

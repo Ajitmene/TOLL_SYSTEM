@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Staff &amp; Users{% endblock %}
+{% block page_title %}Staff &amp; Users{% endblock %}
+{% block page_subtitle %}{{ users|length }} account(s) on the system{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+  <div></div>
+  <a href="{{ url_for('user_register') }}" class="btn btn-primary">+ Register User</a>
+</div>
+
+<div class="card">
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr><th>Username</th><th>Full Name</th><th>Role</th><th>Booth</th><th>Status</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+        <tr>
+          <td class="mono">{{ u.username }}</td>
+          <td>{{ u.full_name }}</td>
+          <td><span class="badge blue">{{ u.role }}</span></td>
+          <td>{{ u.booth_id or '—' }}</td>
+          <td>
+            {% if u.is_active %}<span class="badge green">Active</span>
+            {% else %}<span class="badge red">Inactive</span>{% endif %}
+          </td>
+          <td>
+            <form method="POST" action="{{ url_for('user_toggle', username=u.username) }}">
+              {% if u.is_active %}
+              <button class="btn btn-sm btn-danger" type="submit">Deactivate</button>
+              {% else %}
+              <button class="btn btn-sm btn-success" type="submit">Activate</button>
+              {% endif %}
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr class="empty-row"><td colspan="6">No users yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

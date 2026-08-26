@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Register Vehicle{% endblock %}
+{% block page_title %}Register Vehicle{% endblock %}
+{% block page_subtitle %}Add a new vehicle to the system{% endblock %}
+
+{% block content %}
+<div class="breadcrumb"><a href="{{ url_for('vehicles') }}">Vehicles</a> / Register</div>
+
+<div class="card card-pad" style="max-width: 760px;">
+  <form method="POST">
+    <div class="form-grid">
+      <div class="field full">
+        <label>Vehicle Number <span class="req">*</span></label>
+        <input type="text" name="vehicle_number" placeholder="MH12AB1234" required style="text-transform:uppercase;">
+        <span class="helptext">Format: 2 letters, 1-2 digits, 1-2 letters, 4 digits (e.g. MH12AB1234)</span>
+      </div>
+
+      <div class="field">
+        <label>Vehicle Type <span class="req">*</span></label>
+        <select name="vehicle_type" required>
+          <option value="Bike">Bike</option>
+          <option value="Car" selected>Car</option>
+          <option value="SUV">SUV</option>
+          <option value="LCV">LCV</option>
+          <option value="Bus">Bus</option>
+          <option value="Truck">Truck</option>
+          <option value="Multi-Axle">Multi-Axle</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Fuel Type <span class="req">*</span></label>
+        <select name="fuel_type" required>
+          <option value="Petrol">Petrol</option>
+          <option value="Diesel">Diesel</option>
+          <option value="CNG">CNG</option>
+          <option value="Electric">Electric</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Owner Name <span class="req">*</span></label>
+        <input type="text" name="owner_name" required>
+      </div>
+
+      <div class="field">
+        <label>Owner Phone <span class="req">*</span></label>
+        <input type="text" name="owner_phone" placeholder="9876543210" required>
+      </div>
+
+      <div class="field">
+        <label>Vehicle Model</label>
+        <input type="text" name="vehicle_model" placeholder="e.g. Swift, Creta">
+      </div>
+
+      <div class="field">
+        <label>Registration State <span class="req">*</span></label>
+        <input type="text" name="registration_state" placeholder="e.g. Maharashtra" required>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Register Vehicle</button>
+      <a href="{{ url_for('vehicles') }}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

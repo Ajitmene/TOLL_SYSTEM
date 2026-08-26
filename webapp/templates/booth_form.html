@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Create Booth{% endblock %}
+{% block page_title %}Create Toll Booth{% endblock %}
+{% block page_subtitle %}Add a new lane to the network{% endblock %}
+
+{% block content %}
+<div class="breadcrumb"><a href="{{ url_for('booths') }}">Toll Booths</a> / Create</div>
+
+<div class="card card-pad" style="max-width: 640px;">
+  <form method="POST">
+    <div class="form-grid">
+      <div class="field full">
+        <label>Booth Name <span class="req">*</span></label>
+        <input type="text" name="booth_name" placeholder="e.g. Pune-Mumbai Expressway Plaza" required>
+      </div>
+      <div class="field">
+        <label>Location <span class="req">*</span></label>
+        <input type="text" name="location" placeholder="e.g. NH48, KM 42" required>
+      </div>
+      <div class="field">
+        <label>Lane Number <span class="req">*</span></label>
+        <input type="text" name="lane_number" placeholder="e.g. 3" required>
+      </div>
+      <div class="field full">
+        <label>Assign Operator ID (optional)</label>
+        <input type="text" name="operator_id" placeholder="e.g. USR20260101...">
+        <span class="helptext">Leave blank to assign later.</span>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Create Booth</button>
+      <a href="{{ url_for('booths') }}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

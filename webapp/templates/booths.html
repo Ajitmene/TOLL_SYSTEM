@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Toll Booths{% endblock %}
+{% block page_title %}Toll Booths{% endblock %}
+{% block page_subtitle %}{{ network.total_booths }} booth(s) across the network{% endblock %}
+
+{% block content %}
+
+<div class="grid cols-4" style="margin-bottom:20px;">
+  <div class="card stat-card">
+    <div class="stat-icon tint-indigo">&#128992;</div>
+    <div class="label">Total Booths</div>
+    <div class="value">{{ network.total_booths }}</div>
+  </div>
+  <div class="card stat-card">
+    <div class="stat-icon tint-teal">&#9989;</div>
+    <div class="label">Open</div>
+    <div class="value">{{ network.open_booths }}</div>
+  </div>
+  <div class="card stat-card">
+    <div class="stat-icon tint-rose">&#9940;</div>
+    <div class="label">Closed</div>
+    <div class="value">{{ network.closed_booths }}</div>
+  </div>
+  <div class="card stat-card">
+    <div class="stat-icon tint-amber">&#128295;</div>
+    <div class="label">Maintenance</div>
+    <div class="value">{{ network.maintenance_booths }}</div>
+  </div>
+</div>
+
+<div class="page-head">
+  <div></div>
+  {% if current_user.role == 'Admin' %}
+  <a href="{{ url_for('booth_create') }}" class="btn btn-primary">+ Create Booth</a>
+  {% endif %}
+</div>
+
+<div class="card">
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Booth ID</th><th>Name</th><th>Location</th><th>Lane</th>
+          <th>Operator</th><th>Status</th><th>Vehicles Served</th>
+          <th>Total Collection</th>
+          {% if current_user.role in ['Admin','Manager'] %}<th>Actions</th>{% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in booths %}
+        <tr>
+          <td class="mono">{{ b.booth_id }}</td>
+          <td>{{ b.booth_name }}</td>
+          <td>{{ b.location }}</td>
+          <td>{{ b.lane_number }}</td>
+          <td>{{ b.operator_id or '—' }}</td>
+          <td>
+            {% if b.status == 'OPEN' %}<span class="badge green">Open</span>
+            {% elif b.status == 'CLOSED' %}<span class="badge red">Closed</span>
+            {% else %}<span class="badge amber">Maintenance</span>{% endif %}
+          </td>
+          <td>{{ b.vehicle_count }}</td>
+          <td>&#8377;{{ "%.2f"|format(b.total_collection) }}</td>
+          {% if current_user.role in ['Admin','Manager'] %}
+          <td>
+            <div class="btn-row">
+              {% if b.status != 'OPEN' %}
+              <form method="POST" action="{{ url_for('booth_status_change', booth_id=b.booth_id, action='open') }}">
+                <button class="btn btn-sm btn-success" type="submit">Open</button>
+              </form>
+              {% endif %}
+              {% if b.status != 'CLOSED' %}
+              <form method="POST" action="{{ url_for('booth_status_change', booth_id=b.booth_id, action='close') }}">
+                <button class="btn btn-sm btn-danger" type="submit">Close</button>
+              </form>
+              {% endif %}
+              {% if b.status != 'MAINTENANCE' %}
+              <form method="POST" action="{{ url_for('booth_status_change', booth_id=b.booth_id, action='maintenance') }}">
+                <button class="btn btn-sm btn-ghost" type="submit">Maintenance</button>
+              </form>
+              {% endif %}
+            </div>
+          </td>
+          {% endif %}
+        </tr>
+        {% else %}
+        <tr class="empty-row"><td colspan="9">No booths created yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

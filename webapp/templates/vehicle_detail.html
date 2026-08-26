@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}{{ vehicle.vehicle_number }}{% endblock %}
+{% block page_title %}{{ vehicle.vehicle_number }}{% endblock %}
+{% block page_subtitle %}{{ vehicle.owner_name }} &middot; {{ vehicle.vehicle_type }}{% endblock %}
+
+{% block content %}
+<div class="breadcrumb"><a href="{{ url_for('vehicles') }}">Vehicles</a> / {{ vehicle.vehicle_number }}</div>
+
+<div class="grid cols-3" style="margin-bottom:20px;">
+  <div class="card stat-card">
+    <div class="stat-icon tint-indigo">&#128176;</div>
+    <div class="label">Total Spent</div>
+    <div class="value">&#8377;{{ "%.2f"|format(total_spent) }}</div>
+    <div class="delta">{{ transactions|length }} crossing(s)</div>
+  </div>
+  <div class="card stat-card">
+    <div class="stat-icon tint-teal">&#128179;</div>
+    <div class="label">FASTag Balance</div>
+    <div class="value">
+      {% if fastag %}&#8377;{{ "%.2f"|format(fastag.balance) }}{% else %}&mdash;{% endif %}
+    </div>
+    <div class="delta">
+      {% if fastag %}{{ fastag.fastag_id }} &middot; {{ fastag.status }}{% else %}No FASTag linked{% endif %}
+    </div>
+  </div>
+  <div class="card stat-card">
+    <div class="stat-icon tint-rose">&#9888;</div>
+    <div class="label">Violations</div>
+    <div class="value">{{ violations|length }}</div>
+    <div class="delta">lifetime records</div>
+  </div>
+</div>
+
+<div class="two-col">
+  <div class="card">
+    <div class="card-header"><h3>Crossing History</h3></div>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Booth</th><th>Method</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody>
+          {% for t in transactions %}
+          <tr>
+            <td>{{ t.booth_id }}</td>
+            <td>{{ t.payment_method }}</td>
+            <td>&#8377;{{ "%.2f"|format(t.final_amount) }}</td>
+            <td>
+              {% if t.status == 'SUCCESS' %}<span class="badge green">Success</span>
+              {% else %}<span class="badge red">{{ t.status }}</span>{% endif %}
+            </td>
+            <td class="muted">{{ t.transaction_datetime[:19]|replace('T',' ') }}</td>
+          </tr>
+          {% else %}
+          <tr class="empty-row"><td colspan="5">No crossings recorded for this vehicle yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header"><h3>Vehicle Details</h3></div>
+      <div class="card-pad kv-list" style="padding-top:12px;">
+        <div class="kv-row"><span class="k">Owner</span><span class="v">{{ vehicle.owner_name }}</span></div>
+        <div class="kv-row"><span class="k">Phone</span><span class="v">{{ vehicle.owner_phone }}</span></div>
+        <div class="kv-row"><span class="k">Model</span><span class="v">{{ vehicle.vehicle_model or '—' }}</span></div>
+        <div class="kv-row"><span class="k">Fuel Type</span><span class="v">{{ vehicle.fuel_type }}</span></div>
+        <div class="kv-row"><span class="k">State</span><span class="v">{{ vehicle.registration_state }}</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3>Active Passes</h3></div>
+      <div class="card-pad" style="padding-top:12px;">
+        {% for p in passes %}
+        <div class="kv-row">
+          <span class="k">{{ p.pass_type }} &middot; {{ p.pass_id }}</span>
+          <span class="v">
+            {% if p.status == 'ACTIVE' %}<span class="badge green">Active</span>
+            {% else %}<span class="badge gray">{{ p.status }}</span>{% endif %}
+          </span>
+        </div>
+        {% else %}
+        <div class="muted" style="font-size:12.5px;">No passes issued.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

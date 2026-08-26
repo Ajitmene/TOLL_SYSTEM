@@ -1,0 +1,14 @@
+[
+    {
+        "booth_id": "B001",
+        "booth_name": "Main Toll Booth",
+        "location": "Pune-Mumbai Highway",
+        "lane_number": 1,
+        "operator_id": "OP001",
+        "status": "OPEN",
+        "vehicle_count": 0,
+        "total_collection": 0.0,
+        "last_transaction_id": null,
+        "last_transaction_time": null
+    }
+]

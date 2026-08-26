@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Vehicles{% endblock %}
+{% block page_title %}Vehicles{% endblock %}
+{% block page_subtitle %}{{ vehicles|length }} registered vehicle(s){% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+  <form method="get" class="btn-row">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search by number or owner…"
+           style="padding:9px 12px; border-radius:8px; border:1px solid var(--border); min-width:260px;">
+    <button class="btn btn-ghost" type="submit">Search</button>
+  </form>
+  <a href="{{ url_for('vehicle_register') }}" class="btn btn-primary">+ Register Vehicle</a>
+</div>
+
+<div class="card">
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Vehicle Number</th><th>Type</th><th>Owner</th>
+          <th>Model</th><th>Fuel</th><th>State</th><th>FASTag</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in vehicles %}
+        <tr>
+          <td class="mono"><a href="{{ url_for('vehicle_detail', vehicle_number=v.vehicle_number) }}">{{ v.vehicle_number }}</a></td>
+          <td><span class="badge gray">{{ v.vehicle_type }}</span></td>
+          <td>{{ v.owner_name }}</td>
+          <td>{{ v.vehicle_model }}</td>
+          <td>{{ v.fuel_type }}</td>
+          <td>{{ v.registration_state }}</td>
+          <td>
+            {% if v.fastag_id %}
+              <span class="badge blue">{{ v.fastag_id }}</span>
+            {% else %}
+              <span class="muted">— none —</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr class="empty-row"><td colspan="7">No vehicles found. Register the first one to get started.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

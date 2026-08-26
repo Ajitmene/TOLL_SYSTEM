@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Issue Pass{% endblock %}
+{% block page_title %}Issue Toll Pass{% endblock %}
+{% block page_subtitle %}Create a prepaid Monthly or Trip pass{% endblock %}
+
+{% block content %}
+<div class="breadcrumb"><a href="{{ url_for('passes') }}">Toll Passes</a> / Issue</div>
+
+<div class="card card-pad" style="max-width: 560px;">
+  <form method="POST" id="pass-form">
+    <div class="form-grid single">
+      <div class="field">
+        <label>Vehicle Number <span class="req">*</span></label>
+        <input type="text" name="vehicle_number" placeholder="MH12AB1234" required style="text-transform:uppercase;">
+      </div>
+
+      <div class="field">
+        <label>Pass Type <span class="req">*</span></label>
+        <select name="pass_type" id="pass_type" required>
+          <option value="MONTHLY">Monthly (unlimited crossings)</option>
+          <option value="TRIP">Trip pack (fixed number of crossings)</option>
+        </select>
+      </div>
+
+      <div class="field" id="days-field">
+        <label>Validity (days)</label>
+        <input type="number" name="validity_days" value="30" min="1">
+        <span class="helptext">&#8377;1500 per 30 days.</span>
+      </div>
+
+      <div class="field" id="trips-field" style="display:none;">
+        <label>Number of Trips</label>
+        <input type="number" name="trip_count" value="10" min="1">
+        <span class="helptext">&#8377;45 per trip.</span>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Issue Pass</button>
+      <a href="{{ url_for('passes') }}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  const typeSelect = document.getElementById('pass_type');
+  const daysField = document.getElementById('days-field');
+  const tripsField = document.getElementById('trips-field');
+
+  function syncFields() {
+    const monthly = typeSelect.value === 'MONTHLY';
+    daysField.style.display = monthly ? 'block' : 'none';
+    tripsField.style.display = monthly ? 'none' : 'block';
+  }
+
+  typeSelect.addEventListener('change', syncFields);
+  syncFields();
+</script>
+{% endblock %}

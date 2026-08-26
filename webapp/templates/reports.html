@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block page_title %}Reports &amp; Analytics{% endblock %}
+{% block page_subtitle %}System-wide performance summary{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+  <div></div>
+  <div class="btn-row">
+    <a href="{{ url_for('reports_export', fmt='json') }}" class="btn btn-ghost">Export Summary (JSON)</a>
+    <a href="{{ url_for('reports_export', fmt='csv') }}" class="btn btn-ghost">Export Transactions (CSV)</a>
+  </div>
+</div>
+
+<div class="grid cols-3" style="margin-bottom:20px;">
+  <div class="card stat-card">
+    <div class="stat-icon tint-indigo">&#128176;</div>
+    <div class="label">Total Collection</div>
+    <div class="value">&#8377;{{ "%.2f"|format(summary.total_collection) }}</div>
+  </div>
+  <div class="card stat-card">
+    <div class="stat-icon tint-teal">&#128663;</div>
+    <div class="label">Total Vehicles</div>
+    <div class="value">{{ summary.total_vehicles }}</div>
+  </div>
+  <div class="card stat-card">
+    <div class="stat-icon tint-rose">&#9888;</div>
+    <div class="label">Outstanding Fines</div>
+    <div class="value">&#8377;{{ "%.2f"|format(summary.outstanding_fines_total) }}</div>
+  </div>
+</div>
+
+<div class="two-col">
+  <div class="card">
+    <div class="card-header"><h3>Revenue by Booth</h3></div>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Booth</th><th>Revenue</th></tr></thead>
+        <tbody>
+          {% for booth_id, amount in summary.revenue_by_booth.items() %}
+          <tr>
+            <td>{{ booth_id }}{% if booth_id == summary.best_performing_booth %} <span class="badge green">Top</span>{% endif %}</td>
+            <td>&#8377;{{ "%.2f"|format(amount) }}</td>
+          </tr>
+          {% else %}
+          <tr class="empty-row"><td colspan="2">No booth revenue yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3>Revenue by Payment Method</h3></div>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Method</th><th>Revenue</th></tr></thead>
+        <tbody>
+          {% for method, amount in summary.revenue_by_payment_method.items() %}
+          <tr><td>{{ method }}</td><td>&#8377;{{ "%.2f"|format(amount) }}</td></tr>
+          {% else %}
+          <tr class="empty-row"><td colspan="2">No data yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section-title">Vehicles Processed by Type</div>
+<div class="card card-pad">
+  {% if summary.vehicle_count_by_type %}
+    <div class="grid cols-4">
+      {% for vtype, count in summary.vehicle_count_by_type.items() %}
+      <div class="kv-row" style="border:1px solid var(--border); border-radius:10px; padding:12px 14px;">
+        <span class="k">{{ vtype }}</span>
+        <span class="v">{{ count }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state"><div class="ic">&#128202;</div>No crossings processed yet.</div>
+  {% endif %}
+</div>
+
+{% endblock %}

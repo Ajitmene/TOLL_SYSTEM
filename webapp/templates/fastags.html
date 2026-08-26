@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}FASTags{% endblock %}
+{% block page_title %}FASTags{% endblock %}
+{% block page_subtitle %}{{ fastags|length }} tag(s) issued{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+  <div></div>
+  <a href="{{ url_for('fastag_create') }}" class="btn btn-primary">+ Issue FASTag</a>
+</div>
+
+<div class="card">
+  <div class="table-wrap">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>FASTag ID</th><th>Vehicle</th><th>Balance</th><th>Status</th>
+          <th>Recharge</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for f in fastags %}
+        <tr>
+          <td class="mono">{{ f.fastag_id }}</td>
+          <td><a href="{{ url_for('vehicle_detail', vehicle_number=f.vehicle_number) }}">{{ f.vehicle_number }}</a></td>
+          <td>&#8377;{{ "%.2f"|format(f.balance) }}</td>
+          <td>
+            {% if f.status == 'ACTIVE' %}<span class="badge green">Active</span>
+            {% else %}<span class="badge red">Inactive</span>{% endif %}
+          </td>
+          <td>
+            <form method="POST" action="{{ url_for('fastag_recharge', fastag_id=f.fastag_id) }}" class="btn-row">
+              <input type="number" name="amount" min="1" step="0.01" placeholder="Amount" required
+                     style="width:110px; padding:6px 9px; border-radius:6px; border:1px solid var(--border); font-size:12.5px;">
+              <button class="btn btn-sm btn-success" type="submit">Recharge</button>
+            </form>
+          </td>
+          <td>
+            {% if current_user.role == 'Admin' %}
+            <form method="POST" action="{{ url_for('fastag_toggle', fastag_id=f.fastag_id) }}">
+              {% if f.status == 'ACTIVE' %}
+              <button class="btn btn-sm btn-danger" type="submit">Deactivate</button>
+              {% else %}
+              <button class="btn btn-sm btn-ghost" type="submit">Reactivate</button>
+              {% endif %}
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr class="empty-row"><td colspan="6">No FASTags issued yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

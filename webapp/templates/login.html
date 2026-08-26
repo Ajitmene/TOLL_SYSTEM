@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in · Smart Toll Plaza</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="login-shell">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-mark">TP</div>
+      <h1>Smart Toll Plaza</h1>
+      <p>Operations Console — sign in to continue</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('login') }}">
+      <div class="form-grid single">
+        <div class="field">
+          <label>Username</label>
+          <input type="text" name="username" autofocus required>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" name="password" required>
+        </div>
+      </div>
+      <div class="form-actions" style="border-top:none; margin-top:16px; padding-top:0;">
+        <button type="submit" class="btn btn-primary" style="width:100%;">Sign in</button>
+      </div>
+    </form>
+
+    <div class="login-hint">
+      First run? Default admin login is <strong>admin</strong> / <strong>admin123</strong>
+    </div>
+  </div>
+</div>
+</body>
+</html>

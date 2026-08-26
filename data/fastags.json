@@ -1,0 +1,40 @@
+[
+    {
+        "fastag_id": "FT10001",
+        "vehicle_number": "MH12AB1234",
+        "balance": 730.0,
+        "status": "ACTIVE",
+        "transaction_history": [
+            {
+                "type": "TOLL_DEDUCTION",
+                "amount": 54.0,
+                "balance_after": 946.0,
+                "datetime": "2026-08-19T23:29:33.952108"
+            },
+            {
+                "type": "TOLL_DEDUCTION",
+                "amount": 54.0,
+                "balance_after": 892.0,
+                "datetime": "2026-08-19T23:29:45.036342"
+            },
+            {
+                "type": "TOLL_DEDUCTION",
+                "amount": 54.0,
+                "balance_after": 838.0,
+                "datetime": "2026-08-19T23:31:48.868614"
+            },
+            {
+                "type": "TOLL_DEDUCTION",
+                "amount": 54.0,
+                "balance_after": 784.0,
+                "datetime": "2026-08-19T23:34:31.466660"
+            },
+            {
+                "type": "TOLL_DEDUCTION",
+                "amount": 54.0,
+                "balance_after": 730.0,
+                "datetime": "2026-08-19T23:44:16.704444"
+            }
+        ]
+    }
+]

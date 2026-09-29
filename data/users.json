@@ -7,5 +7,14 @@
         "role": "Admin",
         "is_active": true,
         "booth_id": null
+    },
+    {
+        "user_id": "USR20260911115329222958",
+        "username": "snehal",
+        "password": "f63ba5211f78e551eeb637e79795f339$13384bba7dc2d0ba7d7f0c807883138551178e3b9bc6d332b50ae6ade0da4b75",
+        "full_name": "snehal tade",
+        "role": "Toll Operator",
+        "is_active": false,
+        "booth_id": "B001"
     }
 ]
